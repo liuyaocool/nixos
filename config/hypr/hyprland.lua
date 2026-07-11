@@ -1,0 +1,16 @@
+require("keybinds")
+require("config")
+
+hl.on("hyprland.start", function () 
+    hl.exec_cmd("waybar")
+    hl.exec_cmd("fcitx5 -d --replace")
+    hl.exec_cmd("awww-daemon")
+    hl.exec_cmd("systemctl --user start waybar.service")
+    hl.exec_cmd("systemctl --user start hyprpolkitagent")
+end)
+hl.on("config.reloaded", function () 
+    hl.exec_cmd("fcitx5 -d --replace")
+end)
+
+hl.layer_rule({ match = { namespace = "waybar" }, blur = true })
+hl.layer_rule({ match = { namespace = "rofi" }, blur = true })

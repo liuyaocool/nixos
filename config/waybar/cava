@@ -1,0 +1,12 @@
+[general]
+autosens = 1
+sensitivity = 150
+bars = 64
+
+[input]
+method = pulse
+source = auto
+
+[output]
+method = raw
+bar_delimiter = 0

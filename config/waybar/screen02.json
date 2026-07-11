@@ -1,0 +1,9 @@
+{	
+    "modules-left": [
+		"hyprland/workspaces",
+		"hyprland/window"
+	],
+	"modules-center": ["cava"],
+	"modules-right": [],
+	"include": "base.json"
+}

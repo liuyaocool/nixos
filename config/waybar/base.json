@@ -1,0 +1,100 @@
+{
+        "custom/menu": {
+        "on-click": "rofi -show drun",
+        "format": "menu",
+        "format-icons": {
+        "spotify": "",
+        "default": "🎵"
+        }
+    },
+	"hyprland/window": {
+		"format": "{}",
+		"separate-outputs": true
+	},
+	"hyprland/workspaces": {
+		"format": "{icon}",
+		"format-icons": {
+		}
+	},
+    "mpris": {
+        "format": "{status_icon} [{player} {position}/{length}]  <i>{title}</i>",
+        "format-paused": "{status_icon} [{player} {position}/{length}]  {title}",
+        "title-len": 20,
+        "player-icons": {
+            "default": "\ue632"
+        },
+        "status-icons": {
+            "paused": "\ue600",
+            "playing": "\ue601",
+            "stopped": "\ueb18"
+        }
+    },
+    "pulseaudio": {
+        "format": "\ue8b8 {volume}%",
+        "format-bluetooth": "\ue8b8 {volume}%  {icon}",
+        "format-muted": "\ueca9 {volume}%",
+        "scroll-step": 5,
+        "reverse-mouse-scrolling": true,
+        "on-click": "pavucontrol",
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+    },
+    "cava": {
+        "format-icons": [
+            "\ue000", "\ue001", "\ue002", "\ue003", "\ue004", "\ue005", "\ue006", "\ue007", 
+            "\ue008", "\ue009", "\ue00a", "\ue00b", "\ue00c", "\ue00d", "\ue00e", "\ue00f",
+            "\ue010", "\ue011", "\ue012", "\ue013", "\ue014", "\ue015", "\ue016", "\ue017", 
+            "\ue018", "\ue019", "\ue01a", "\ue01b", "\ue01c", "\ue01d", "\ue01e", "\ue01f"
+        ]
+		,"//cava": "默认读取 .config/cava/config, 如果不要glsl模式， 则需删除"
+        ,"cava_config": "$HOME/.config/waybar/cava"
+    },
+	"clock": {
+        "format": "{:%A, %B %d, %Y (%V) | %r}",
+        "format-alt": "{:%a, %b %d, %Y | %I:%M %p}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "interval": 1
+    },
+	"memory": {
+		"format": "M {used:0.1f}/{total:0.1f}",
+        "interval": 1
+    },
+    "group/cpu-temp": {
+		"orientation": "horizontal",
+		"modules": [ "cpu", "temperature#cpu"]
+	},
+	"cpu": {
+        "format": "C {usage}%",
+        "interval": 1
+    },
+    "temperature#cpu": {
+        "// cat /sys/class/thermal/thermal_zone*/type": 1,
+        "thermal-zone": 0,
+        "format": "{temperatureC}°C",
+        "interval": 3
+    },
+	"network": {
+        "format-wifi": "{essid} ({signalStrength}%) ↟{bandwidthUpBytes} ↡{bandwidthDownBytes}",
+        "format-ethernet": "↑{bandwidthUpBytes} ↓{bandwidthDownBytes}", 
+        "tooltip-format": "{ifname} via {gwaddr}",
+        "format-linked": "{ifname} (No IP)",
+        "format-disconnected": "Disconnected",
+        "interval": 1,
+		"on-click": "kcmshell6 kcm_networkmanagement"
+    },
+	"custom/network": {
+        "format-wifi": "{essid} ({signalStrength}%) ↟{bandwidthUpBytes} ↡{bandwidthDownBytes}",
+        "format-ethernet": "↟{bandwidthUpBytes} ↡{bandwidthDownBytes} {ipaddr}/{cidr}", 
+        "tooltip-format": "{ifname} via {gwaddr}",
+        "format-linked": "{ifname} (No IP)",
+        "format-disconnected": "Disconnected",
+        "format-alt": "",
+        "interval": 1
+    },
+	"custom/clock": {
+        "format": " {} ",
+        "escape": true,
+        "interval": 1,
+        "tooltip": true,
+        "exec": "date '+%u  %m/%d %H:%M:%S'"
+    }
+}

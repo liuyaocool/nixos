@@ -1,0 +1,18 @@
+{
+    "modules-left": [
+		"hyprland/workspaces",
+		"hyprland/window"
+	],
+	"modules-center": [
+        "cava"
+    ],
+	"modules-right": [
+        "mpris",
+        "pulseaudio",
+		"network",
+        "group/cpu-temp",
+		"memory",
+		"custom/clock"
+	],
+	"include": "base.json"
+}
