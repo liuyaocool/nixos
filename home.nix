@@ -23,14 +23,19 @@
     XMODIFIERS = "@im=fcitx";
   };
 
+  # security.polkit.enable = true;
   home.packages = with pkgs; [
+    awww
     bind # nslookup
     chromium
     fastfetch
     ffmpeg
     firefox
+    foot
     gnumake
     go
+    hyprland
+    hyprpolkitagent
     killall
     micro
     mpv
@@ -43,13 +48,17 @@
     unzip
     vim
     vscode
-    waybar
+    # waybar
     wev
     wget
     xprop
     zsh
   ];
- 
+
+  programs.waybar = {
+    enable = true;
+  };
+
   programs.git = {
     enable = true;
     settings.user = {
@@ -58,41 +67,26 @@
     };
   };
 
-  programs.foot = {
-    enable = true;
-    # theme = "aeroroot";
-    settings = { # man foot.ini 5
-      main = {
-        font = "Source Code Pro:size=10";
-      };
-      colors-dark = {
-        alpha = 0.7;
-        background = "000000";
-        foreground = "d1ba74";
-        # folder
-        regular4 = "008457";
-        # zsh-autosuggestions
-        bright0 = "8C979F";
-      };
-      mouse = {
-      	hide-when-typing = false;
-      };
-    };
-  };
-
   programs.bash = {
     enable = true;
     shellAliases = {
-      rebuild = "sudo nixos-rebuild switch --flake ~/nixos";
+      rebuild = "sudo nixos-rebuild switch --flake path:$HOME/nixos";
       ra = "ranger";
+      mem-usage = "smem -tk";
+      pkg-search = "nix search nixpkgs ";
+      gd = "git diff";
+      gs = "git status";
+      gu = "git pull";
     };
   };
   programs.zsh = {
     enable = true;
     autosuggestion.enable = true;
     shellAliases = {
-      rebuild = "sudo nixos-rebuild switch --flake ~/nixos";
+      rebuild = "sudo nixos-rebuild switch --flake path:$HOME/nixos";
       ra = "ranger";
+      mem-usage = "smem -tk";
+      pkg-search = "nix search nixpkgs ";
       gd = "git diff";
       gs = "git status";
       gu = "git pull";

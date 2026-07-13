@@ -35,7 +35,13 @@
     "bcma"
     "ssb"
   ];
-
+  
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      mesa
+    ];
+  };
 
   time.timeZone = "Asia/Shanghai";
   i18n.defaultLocale = "en_US.UTF-8";
@@ -57,10 +63,16 @@
     variant = "";
   };
 
-  nix.settings.substituters = [
-    "https://mirrors.ustc.edu.cn/nix-channels/store"
-    "https://cache.nixos.org/"
-  ];
+  nix.settings = {
+    substituters = [
+      "https://mirrors.ustc.edu.cn/nix-channels/store"
+      "https://cache.nixos.org/"
+    ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+  };
 
   users.users."liuyao" = {
     isNormalUser = true;
@@ -92,9 +104,10 @@
     };
   };
 
-  programs.hyprland = {
+  services.pipewire = {
     enable = true;
-    xwayland.enable = true;
+    pulse.enable = true;
+    alsa.enable = true;
   };
 
   programs.nix-ld = {
