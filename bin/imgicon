@@ -1,0 +1,13 @@
+#!/bin/bash
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 img_path"
+    exit 1
+fi
+
+for file in "$@"; do
+    dir=$(dirname "$file")/icon
+    name=$(basename "$file")
+    name=${name%.*}
+    mkdir -p $dir
+    ffmpeg -i "${file}" -q 6 -vf "scale=260:-1" "${dir}/${name}.jpg"
+done

@@ -1,4 +1,4 @@
-{ config, pkgs, common, ... }:
+{ config, pkgs, lib, common, ... }:
 
 {
   imports = [
@@ -10,8 +10,32 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # 允许非自由软件
+  nixpkgs.config.allowUnfree = true;
+
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
+  
+  # 允许不安全的包
+  # nixpkgs.config.allowInsecurePredicate = pkg: builtins.elem (lib.getName pkg) [
+  #   "broadcom-sta"
+  # ];
+  nixpkgs.config.permittedInsecurePackages = [
+    "broadcom-sta-6.30.223.271-59-6.18.38"
+  ];
+  hardware.enableAllFirmware = true;
+  boot.extraModulePackages = with config.boot.kernelPackages; [
+    broadcom_sta
+  ];
+  boot.kernelModules = [
+    "wl"
+  ];
+  boot.blacklistedKernelModules = [
+    "b43"
+    "bcma"
+    "ssb"
+  ];
+
 
   time.timeZone = "Asia/Shanghai";
   i18n.defaultLocale = "en_US.UTF-8";
@@ -50,8 +74,6 @@
   networking.hosts = {
     "192.168.8.29" = ["fs.com" "w.com" "ws.com"];
   };
-
-  nixpkgs.config.allowUnfree = true;
 
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -117,6 +139,10 @@
         }
         {
           command = "/run/current-system/sw/bin/ls *";
+          options = [ "NOPASSWD" ];
+        }
+        {
+          command = "/run/current-system/sw/bin/reboot";
           options = [ "NOPASSWD" ];
         }
       ];

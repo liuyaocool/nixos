@@ -1,0 +1,21 @@
+#!/bin/bash
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 video_path"
+    exit 1
+fi
+for file in "$@"; do
+    codec=$(ffprobe -v error -select_streams v:0 -show_entries stream=codec_name -of csv=p=0 "$file" | head -n 1)
+    output="${file%.*}.h264.mp4" # 去除后缀
+    echo "......检测到编码 $codec, 转换为h.264"
+    case "$codec" in
+        h264|avc)
+            ffmpeg -i "$file" -c:v copy -c:a copy -movflags +faststart "$output"
+            ;;
+        hevc|h265)
+            ffmpeg -i "$file" -c:v libx264 -crf 18 -preset slow -c:a aac "$output"
+            ;;
+        *)
+            ffmpeg -i "$file" -c:v libx264 -crf 20 -preset slow -c:a aac "$output"
+            ;;
+    esac
+done

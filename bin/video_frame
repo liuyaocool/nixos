@@ -1,0 +1,10 @@
+#!/bin/bash
+dur=30
+if [ $# -lt 2 ]; then
+    echo "Usage: $0 <video_path> <start+${dur}s>"
+    exit 1
+fi
+
+# ffmpeg -ss ${2} -to ${3} -i ${1} -vf "showinfo" -vsync 0 -f null - 2>&1 | grep pts_time
+#ffprobe -v error -read_intervals "${2}%${3}" -select_streams v:0 -show_frames -show_entries frame=pts_time,pict_type -of csv ${1}
+ffprobe -v error -read_intervals "${2}%+${dur}" -select_streams v:0 -show_frames -show_entries frame=pts_time,pict_type -of csv -sexagesimal ${1} | grep I

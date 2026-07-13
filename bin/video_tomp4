@@ -1,0 +1,7 @@
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 video_path"
+    exit 1
+fi
+for file in "$@"; do
+    ffmpeg -i "${file}" -c:v copy -y "${file}.mp4"
+done

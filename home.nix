@@ -5,8 +5,15 @@
   nixpkgs.config.allowUnfree = true;
 
   home.sessionPath = [
+    "$HOME/nbin"
     "$HOME/bin"
   ];
+
+  fonts.fontconfig.enable = true;
+
+  home.file.".local/share/fonts" = { source = ./fonts;  recursive = true; };
+  home.file.".config"            = { source = ./config; recursive = true; };
+  home.file."nbin"               = { source = ./bin;    recursive = true; };
 
   home.sessionVariables = {
     RUSTUP_DIST_SERVER = "https://mirrors.tuna.tsinghua.edu.cn/rustup";
@@ -27,9 +34,11 @@
     killall
     micro
     mpv
+    pciutils
     ranger
     rofi
     rustup
+    smem
     source-code-pro
     unzip
     vim
@@ -40,18 +49,6 @@
     xprop
     zsh
   ];
-
-  fonts.fontconfig.enable = true;
-
-  home.file.".local/share/fonts" = {
-    source = ./fonts;
-    recursive = true;
-  };
-
-  home.file.".config" = {
-    source = ./config;
-    recursive = true;
-  };
  
   programs.git = {
     enable = true;
