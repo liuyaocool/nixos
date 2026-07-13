@@ -40,6 +40,7 @@
     go
     hyprland
     hyprpolkitagent
+    iw
     killall
     micro
     mpv
@@ -61,16 +62,17 @@
     Unit = {
       Description = "Waybar";
       After = [
-        "graphical-session-pre.target"
+        "graphical-session.target"
       ];
     };
     Service = {
       ExecStart = "${pkgs.waybar}/bin/waybar";
       Restart = "on-failure";
+      RestartSec = 2;
     };
     Install = {
       WantedBy = [
-        "default.target"
+        "graphical-session.target"
       ];
     };
   };
