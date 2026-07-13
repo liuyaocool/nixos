@@ -25,6 +25,10 @@
 
   # security.polkit.enable = true;
   home.packages = with pkgs; [
+    source-code-pro
+    source-han-sans
+    source-han-serif
+    
     awww
     bind # nslookup
     chromium
@@ -44,21 +48,33 @@
     rofi
     rustup
     smem
-    source-code-pro
     unzip
     vim
     vscode
-    # waybar
     wev
     wget
     xprop
     zsh
   ];
 
-  programs.waybar = {
-    enable = true;
+  systemd.user.services.waybar = {
+    Unit = {
+      Description = "Waybar";
+      After = [
+        "graphical-session-pre.target"
+      ];
+    };
+    Service = {
+      ExecStart = "${pkgs.waybar}/bin/waybar";
+      Restart = "on-failure";
+    };
+    Install = {
+      WantedBy = [
+        "default.target"
+      ];
+    };
   };
-
+  
   programs.git = {
     enable = true;
     settings.user = {
