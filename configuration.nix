@@ -36,6 +36,13 @@
     "ssb"
   ];
 
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-vaapi-driver
+      # mesa
+    ];
+  };
 
   time.timeZone = "Asia/Shanghai";
   i18n.defaultLocale = "en_US.UTF-8";
@@ -92,24 +99,24 @@
       waylandFrontend = true;
       addons = with pkgs; [ 
         fcitx5-rime
+        rime-data
         fcitx5-gtk
-        qt6Packages.fcitx5-configtool
+        kdePackages.fcitx5-qt
+        # qt6Packages.fcitx5-configtool
        ];
     };
   };
 
-  hardware.graphics = {
+  programs.hyprland = {
     enable = true;
-    extraPackages = with pkgs; [
-      mesa
-    ];
-  };
-  services.pipewire = {
-    enable = true;
-    pulse.enable = true;
-    alsa.enable = true;
+    xwayland.enable = true;
   };
 
+  # services.pipewire = {
+  #   enable = true;
+  #   pulse.enable = true;
+  #   alsa.enable = true;
+  # };
 
   programs.nix-ld = {
     enable = true;

@@ -11,9 +11,9 @@
 
   fonts.fontconfig.enable = true;
 
-  home.file.".local/share/fonts" = { source = ./fonts;  recursive = true; };
-  home.file.".config"            = { source = ./config; recursive = true; };
-  home.file."nbin"               = { source = ./bin;    recursive = true; };
+  home.file.".local/share" = { source = ./local_share; recursive = true; };
+  home.file.".config"      = { source = ./config;      recursive = true; };
+  home.file."nbin"         = { source = ./bin;         recursive = true; };
 
   home.sessionVariables = {
     RUSTUP_DIST_SERVER = "https://mirrors.tuna.tsinghua.edu.cn/rustup";
@@ -38,7 +38,6 @@
     foot
     gnumake
     go
-    hyprland
     hyprpolkitagent
     iw
     killall
@@ -56,6 +55,9 @@
     wget
     xprop
     zsh
+
+    libva-utils
+    intel-vaapi-driver
   ];
 
   systemd.user.services.waybar = {

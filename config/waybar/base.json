@@ -1,5 +1,5 @@
 {
-        "custom/menu": {
+    "custom/menu": {
         "on-click": "rofi -show drun",
         "format": "menu",
         "format-icons": {
@@ -79,7 +79,7 @@
         "format-linked": "{ifname} (No IP)",
         "format-disconnected": "Disconnected",
         "interval": 1,
-		"on-click": "kcmshell6 kcm_networkmanagement"
+		"on-click": "foot -e nmtui"
     },
 	"custom/network": {
         "format-wifi": "{essid} ({signalStrength}%) ↟{bandwidthUpBytes} ↡{bandwidthDownBytes}",
