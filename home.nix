@@ -49,6 +49,7 @@
     rustup
     smem
     unzip
+    zip
     vim
     vscode
     wev

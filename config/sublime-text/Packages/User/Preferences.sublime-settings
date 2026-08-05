@@ -1,0 +1,8 @@
+{
+	"update_check": false,
+	"theme": "Default Dark.sublime-theme",
+	"ignored_packages":
+	[
+		"Vintage",
+	],
+}
