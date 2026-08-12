@@ -6,6 +6,7 @@
     -- https://wiki.hypr.land/Configuring/Advanced-and-Cool/Expanding-functionality/?utm_source=chatgpt.com#convenience-functions
 
 local MOD = "SUPER" 
+local rofi = "rofi -theme ~/.config/rofi/01.rasi -show "
 
 hl.bind(MOD .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
 hl.bind(MOD .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
@@ -17,36 +18,35 @@ hl.bind(MOD .. "+ SHIFT + code:21", hl.dsp.window.move({ workspace = "+1" }))
 
 -- grim -g "$(slurp)" - | dbus-launch --exit-with-session swappy -f -
 hl.bind(MOD .. "+ a",               hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | satty --filename -"))
-hl.bind("ALT + a",               hl.dsp.exec_cmd("grim"))
-local rofi = "rofi -theme ~/.config/rofi/01.rasi -show "
-hl.bind(MOD .. "+ p",               hl.dsp.exec_cmd(rofi .. "drun"))
-hl.bind(MOD .. "+ o",               hl.dsp.exec_cmd(rofi .. "window"))
-hl.bind(MOD .. "+ code:61",         hl.dsp.exec_cmd(rofi .. "run -matching prefix -filter \"q-\" -disable-history"))
+hl.bind("ALT + a",                  hl.dsp.exec_cmd("grim"))
+hl.bind(MOD .. "+ p",               hl.dsp.exec_cmd(rofi .. " drun"))
+hl.bind(MOD .. "+ o",               hl.dsp.exec_cmd(rofi .. " window"))
+hl.bind(MOD .. "+ code:61",         hl.dsp.exec_cmd(rofi .. " run -matching prefix -filter \"q-\" -disable-history"))
 hl.bind(MOD .. "+ SHIFT + code:36", hl.dsp.exec_cmd("foot zsh"))
 hl.bind(MOD .. "+ SHIFT + r",       hl.dsp.exec_cmd("hyprctl reload"))
 
 -- https://wiki.hypr.land/Configuring/Layouts/Master-Layout/
-hl.bind(MOD .. "+ code:59", hl.dsp.layout("addmaster"))
-hl.bind(MOD .. "+ code:60", hl.dsp.layout("removemaster"))
-hl.bind(MOD .. "+ code:47", hl.dsp.layout("swapprev"))
-hl.bind(MOD .. "+ code:48", hl.dsp.layout("swapnext"))
-hl.bind(MOD .. "+ i",       hl.dsp.layout("cycleprev"))
-hl.bind(MOD .. "+ k",       hl.dsp.layout("cyclenext"))
-hl.bind(MOD .. "+ code:36", hl.dsp.layout("swapwithmaster master"))
+-- <>
+hl.bind(MOD .. "+ code:59",  hl.dsp.layout("addmaster"))
+hl.bind(MOD .. "+ code:60",  hl.dsp.layout("removemaster"))
+hl.bind(MOD .. "+ i",        hl.dsp.layout("cycleprev"))
+hl.bind(MOD .. "+ k",        hl.dsp.layout("cyclenext"))
+hl.bind(MOD .. "+SHIFT + i", hl.dsp.layout("swapprev"))
+hl.bind(MOD .. "+SHIFT + k", hl.dsp.layout("swapnext"))
+hl.bind(MOD .. "+ RETURN",   hl.dsp.layout("swapwithmaster master"))
 
-
--- hl.bind(MOD .. "+ c",          hl.dsp.window.center())
+hl.bind(MOD .. "+ c",         hl.dsp.window.center())
 hl.bind(MOD .. "+ SHIFT + c", hl.dsp.window.kill())
 hl.bind(MOD .. "+ f",         hl.dsp.window.float())
-
 hl.bind(MOD .. "+ j",         hl.dsp.focus({monitor = "-1"}))
 hl.bind(MOD .. "+ l",         hl.dsp.focus({monitor = "+1"}))
 hl.bind(MOD .. "+ SHIFT + j", hl.dsp.window.move({monitor = "-1"}))
 hl.bind(MOD .. "+ SHIFT + l", hl.dsp.window.move({monitor = "+1"}))
+-- []
 hl.bind(MOD .. "+ code:34",   hl.dsp.window.resize({x = "-20", y = "0", relative = true,}))
 hl.bind(MOD .. "+ code:35",   hl.dsp.window.resize({x = "+20", y = "0", relative = true,}))
 
-hl.bind(MOD .. "+ g",       function()
+hl.bind(MOD .. "+ g", function()
     local cur_win = hl.get_active_window()
     if cur_win.floating then
         hl.dispatch(hl.dsp.window.float())
@@ -61,7 +61,7 @@ hl.bind(MOD .. "+ g",       function()
     end
 end)
 
-hl.bind(MOD .. "+ Tab",       function()
+hl.bind(MOD .. "+ Tab", function()
     local cur_mon = hl.get_active_monitor()
     local last_ws = hl.get_last_workspace(cur_mon)
     if last_ws ~= nil then
@@ -72,7 +72,6 @@ end)
 -- hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
 -- local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
-
 -- hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 -- hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
 -- hl.bind(mainMod .. " + S",         hl.dsp.workspace.toggle_special("magic"))
@@ -83,9 +82,7 @@ end)
 local function do_ws(i, dsp_action)
     local mon = hl.get_active_monitor()
     local works = hl.get_workspaces()
-
     -- hl.notification.create({ text = "haha: " .. works[0] .. " / " .. works[0], duration = 1000 })
-
     local treelist = {}
     for _, w in ipairs(works) do
         if w.monitor.id == mon.id then
@@ -95,7 +92,11 @@ local function do_ws(i, dsp_action)
     table.sort(treelist, function(a, b) 
         return a.id < b.id 
     end)
-    hl.dispatch(dsp_action({workspace = treelist[i].id }))
+    if treelist[i] == nil then
+        hl.dispatch(dsp_action({workspace = i }))
+    else
+        hl.dispatch(dsp_action({workspace = treelist[i].id }))
+    end
 end
 
 for i = 1, 10 do
