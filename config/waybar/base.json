@@ -79,7 +79,8 @@
         "format-linked": "{ifname} (No IP)",
         "format-disconnected": "Disconnected",
         "interval": 1,
-		"on-click": "foot -e nmtui"
+		"on-click": "foot -e nmtui",
+        "// 打开kde wifi管理 on-click": "kcmshell6 kcm_networkmanagement"
     },
 	"custom/network": {
         "format-wifi": "{essid} ({signalStrength}%) ↟{bandwidthUpBytes} ↡{bandwidthDownBytes}",

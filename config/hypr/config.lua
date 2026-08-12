@@ -6,17 +6,17 @@ hl.config({
     },
     general = {
         layout = "master",
-        gaps_in  = 2,
-        gaps_out = 4,
+        gaps_in  = 0,
+        gaps_out = 2,
         border_size = 2,
         col = {
-            active_border   = "0xff00ffff",
-            inactive_border = "0x66333333",
+            active_border = "0xff00ffff",
+            inactive_border = "0x00000000",
         },
     },
     input = {
         natural_scroll = true,
-        left_handed = true,
+		-- left_handed = true,
         follow_mouse = 1,
         mouse_refocus = false,
         float_switch_override_focus = 2,
@@ -28,11 +28,24 @@ hl.config({
     decoration = {
         active_opacity = 1,
         inactive_opacity = 1,
-        rounding = 3,
+        rounding = 0,
         blur = {
             enabled = true,
             size = 10,
             passes = 2,
+        },
+        shadow = {
+            enabled = false,
+            sharp = true, -- true:无渐变； false:有渐变
+
+            color_inactive = 0x66333333,
+            range = 2,
+            render_power = 1,
+            -- ARGB 会影响foot的float背景色
+            color = 0xff00ffff;
+
+            offset = {0, 0},
+            scale = 1,
         },
     },
     cursor = {
@@ -52,3 +65,4 @@ hl.config({
         -- new_status = master
     }
 })
+
