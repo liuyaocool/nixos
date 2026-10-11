@@ -12,6 +12,7 @@
 		"network",
         "group/cpu-temp",
 		"memory",
+        "disk",
 		"custom/clock"
 	],
 	"include": "base.json"

@@ -4,12 +4,9 @@
     font-size: 11px;
     font-weight: bold;
 }
-#custom-clock, #clock, #memory, #cpu-temp, #network, #pulseaudio{
-    font-family: Source Code Pro,Roboto, Helvetica, Arial, sans-serif, otf-font-awesome, waybar-icon;
-}
 #window {
     color: @text;
-    font-family: 华康翩翩体W5P,Source Code Pro,Roboto, Helvetica, Arial, sans-serif, otf-font-awesome;
+    font-family: 华康翩翩体W5P,Source Code Pro,Roboto, Helvetica, Arial, sans-serif, otf-font-awesome, waybar-icon;
 }
 
 window#waybar {
@@ -22,9 +19,9 @@ window#waybar {
 }
 
 #workspaces button {
+    color: @text;
 	border-radius: 0px;
     padding: 0 2px;
-    color: @text;
     /* Use box-shadow instead of border so the text isn't offset */
     box-shadow: inset 0 -2px transparent;
 }
@@ -51,19 +48,22 @@ window#waybar {
 	color: gray;
 }
 
-#custom-clock, #clock, #memory, #cpu-temp, #network, #pulseaudio {
+#custom-clock, #clock, #memory, #cpu-temp, #network, #pulseaudio, #disk 
+{
+    font-family: Source Code Pro,Roboto, Helvetica, Arial, sans-serif, otf-font-awesome, waybar-icon;
     background: rgba(0, 151, 121, 0.5);
 }
-#custom-clock, #clock, #memory, #cpu-temp, #network, #pulseaudio, #mpris {
+#custom-clock, #clock, #memory, #cpu-temp, #network, #pulseaudio, #disk, #mpris 
+{
+    color: @text;
 	border-radius: 3px;
 	margin: 3px 5px 3px 0;
-    color: @text;
 }
-
-
-#clock, #memory {
+#disk, #clock, #memory 
+{
 	padding: 0 10px;
 }
+
 #custom-clock {
 	padding: 0 3px;
 }

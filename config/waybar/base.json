@@ -3,8 +3,8 @@
         "on-click": "rofi -show drun",
         "format": "menu",
         "format-icons": {
-        "spotify": "",
-        "default": "🎵"
+            "spotify": "",
+            "default": "🎵"
         }
     },
 	"hyprland/window": {
@@ -60,7 +60,7 @@
     },
     "group/cpu-temp": {
 		"orientation": "horizontal",
-		"modules": [ "cpu", "temperature#cpu"]
+		"modules": [ "cpu", "custom/cpu_temp"]
 	},
 	"cpu": {
         "format": "C {usage}%",
@@ -71,6 +71,12 @@
         "thermal-zone": 0,
         "format": "{temperatureC}°C",
         "interval": 3
+    },
+    "custom/cpu_temp": {
+        "format": "{}",
+        "interval": 3,
+        "tooltip": false,
+        "exec": "cpu_temp_get"
     },
 	"network": {
         "format-wifi": "{essid} ({signalStrength}%) ↟{bandwidthUpBytes} ↡{bandwidthDownBytes}",
@@ -97,5 +103,10 @@
         "interval": 1,
         "tooltip": true,
         "exec": "date '+%u  %m/%d %H:%M:%S'"
+    },
+    "disk": {
+        "interval": 30,
+        "format": "D {specific_free:0.1f}/{specific_total:0.1f}",
+        "unit": "GB"
     }
 }
