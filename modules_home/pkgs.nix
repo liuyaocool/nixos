@@ -11,7 +11,7 @@
         zsh
         fastfetch
         foot
-        file # ranger需要
+        htop
         ranger
         micro
         killall
