@@ -6,6 +6,7 @@ fi
 
 n="${2//:/.}"
 fn="${1%%.*}"
+suffix="${1##*.}"
 
 # end_151=$(ffprobe -i ${1}.mkv -show_entries format=duration -v quiet -of csv="p=0" | awk '{print int ($1 - 151)}')
-ffmpeg -ss ${2} -to ${3} -i ${1} -c copy sp${fn}-${n}-${1}
+ffmpeg -ss ${2} -to ${3} -i ${1} -c copy ${fn}-sp-${n}.${suffix}

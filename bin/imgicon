@@ -9,5 +9,5 @@ for file in "$@"; do
     name=$(basename "$file")
     name=${name%.*}
     mkdir -p $dir
-    ffmpeg -i "${file}" -q 6 -vf "scale=260:-1" "${dir}/${name}.jpg"
+    ffmpeg -i "${file}" -q 6 -vf "scale=500:-1" "${dir}/${name}.jpg"
 done

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+for zone in /sys/class/thermal/thermal_zone*; do 
+    if [ "$(cat $zone/type)" = "x86_pkg_temp" ]; then
+        echo "$(($(cat $zone/temp) / 1000))°C"
+    fi
+done
