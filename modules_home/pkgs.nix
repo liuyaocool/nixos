@@ -1,5 +1,6 @@
 { pkgs, ... }:
 {
+    nixpkgs.config.allowUnfree = true;
     # security.polkit.enable = true;
     home.packages = with pkgs; [
         source-code-pro

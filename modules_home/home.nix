@@ -7,9 +7,9 @@ let params = import ../params.nix; in
     ];
 
     home.file = {
-        ".local/share" = { source = ./local_share; recursive = true; };
-        ".config"      = { source = ./config;      recursive = true; };
-        "bin"          = { source = ./bin;         recursive = true; };
+        ".local/share" = { source = ../local_share; recursive = true; };
+        ".config"      = { source = ../config;      recursive = true; };
+        "bin"          = { source = ../bin;         recursive = true; };
         # ".vimrc".source = ./home/.vimrc;
     };
 
