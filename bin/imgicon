@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
-if [ $# -eq 0 ]; then
-    echo "Usage: $0 img_path"
+if [ $# -lt 2 ]; then
+    echo "Usage: $0 <width> <img_path...>"
     exit 1
 fi
+w="$1"
+shift 1
 
 for file in "$@"; do
     dir=$(dirname "$file")/icon
     name=$(basename "$file")
     name=${name%.*}
     mkdir -p $dir
-    ffmpeg -i "${file}" -q 6 -vf "scale=500:-1" "${dir}/${name}.jpg"
+    ffmpeg -i "${file}" -q 6 -vf "scale=${w}:-1" "${dir}/${name}.jpg"
 done
