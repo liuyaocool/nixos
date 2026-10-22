@@ -1,12 +1,24 @@
 #!/usr/bin/env bash
 if [ $# -lt 3 ]; then
-    echo "Usage: $0 video_path start end"
+    echo "Usage: $0 <start> <end:传0截取到结尾> <path1> <path2> ..."
     exit 1
 fi
 
-n="${2//:/.}"
-fn="${1%%.*}"
-suffix="${1##*.}"
+start=${1}
+end=${2}
+shift 2
+mkdir -p sp
 
-# end_151=$(ffprobe -i ${1}.mkv -show_entries format=duration -v quiet -of csv="p=0" | awk '{print int ($1 - 151)}')
-ffmpeg -ss ${2} -to ${3} -i ${1} -c copy ${fn}-sp-${n}.${suffix}
+for file in "$@"; do
+	n="${1//:/.}"
+	fn="${file%%.*}"
+	suffix="${file##*.}"
+	# end_151=$(ffprobe -i ${1}.mkv -show_entries format=duration -v quiet -of csv="p=0" | awk '{print int ($1 - 151)}')
+	# ffmpeg -ss ${2} -to ${3} -i ${1} -c copy sp${fn}-${n}-${1}
+	echo sp/${fn}-sp-${n}.${suffix}
+	if [ "$end" = "0" ]; then
+		ffmpeg -ss ${start} -i ${file} -c copy sp/${fn}-sp-${n}.${suffix}
+	else
+		ffmpeg -ss ${start} -to ${end} -i ${file} -c copy sp/${fn}-sp-${n}.${suffix}
+	fi
+done

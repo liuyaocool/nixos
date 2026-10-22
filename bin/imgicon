@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-if [ $# -lt 2 ]; then
+if [ $# -lt 2 ] || [[ ! "$1" =~ ^-?[0-9]+$ ]]; then
     echo "Usage: $0 <width> <img_path...>"
     exit 1
 fi

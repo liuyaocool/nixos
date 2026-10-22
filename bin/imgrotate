@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+usage() {
+   	echo "Usage: $0 <angle(顺时针):90/180/270> <img_path...>"
+   	exit 1	
+}
+if [ $# -lt 2 ]; then
+	usage
+fi
+case "$1" in
+    90)
+        VF="transpose=1"               # 顺时针 90°
+        ;;
+    180)
+        VF="transpose=1,transpose=1"   # 两次顺时针 90°
+        ;;
+    270)
+        VF="transpose=2"               # 逆时针 90°（即顺时针 270°）
+        ;;
+    *)
+        echo "angle不支持${1}"
+        usage
+        ;;
+esac
+
+angle=$1
+shift 1
+
+for file in "$@"; do
+	fn="${file%%.*}"
+	suffix="${file##*.}"
+	ffmpeg -i "$file" -vf "$VF" -q:v 1 "${fn}.r${angle}.${suffix}"
+done
