@@ -26,7 +26,7 @@ angle=$1
 shift 1
 
 for file in "$@"; do
-	fn="${file%%.*}"
-	suffix="${file##*.}"
-	ffmpeg -i "$file" -vf "$VF" -q:v 1 "${fn}.r${angle}.${suffix}"
+    fn="${file%%.*}"
+    suffix="${file##*.}"
+    ffmpeg -i "$file" -vf "$VF" -q:v 1 "${fn}.r${angle}.${suffix}"
 done
