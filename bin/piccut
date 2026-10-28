@@ -15,12 +15,7 @@ echo "$w $h $x $y"
 shift 4
 
 for file in "$@"; do
-    dir=$(dirname "$file")/cut
-    name=$(basename "$file")
-    name=${name%.*}
-    mkdir -p $dir
-    echo $file
     ffmpeg -i "${file}" \
         -filter_complex "[0]crop=w=iw*${w}:h=ih*${h}:x=iw*${x}:y=ih*${y}" \
-        "${dir}/${name}.jpg"
+        "$(pic_get_out "$file" "cut_w${w}_h${h}_x${x}_y${y}")"
 done

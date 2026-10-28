@@ -17,8 +17,8 @@ case "$1" in
         VF="transpose=2"               # 逆时针 90°（即顺时针 270°）
         ;;
     *)
-        echo "angle不支持${1}"
-        usage
+    	echo "angle不支持${1}"
+		usage
         ;;
 esac
 
@@ -26,7 +26,5 @@ angle=$1
 shift 1
 
 for file in "$@"; do
-    fn="${file%%.*}"
-    suffix="${file##*.}"
-    ffmpeg -i "$file" -vf "$VF" -q:v 1 "${fn}.r${angle}.${suffix}"
+	ffmpeg -i "$file" -vf "$VF" -q:v 1 "$(pic_get_out "$file" "r${angle}")"
 done

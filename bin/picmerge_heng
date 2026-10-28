@@ -5,8 +5,8 @@ if [ $# -lt 2 ]; then
     exit 1
 fi
 
-name="${1##*/}"
-name="${name%.*}.merge.jpg"
+name="$(pic_get_out "$1" "merge_heng")"
+
 imgs=("$@")
 count=${#imgs[@]}
 

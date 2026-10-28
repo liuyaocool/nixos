@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+dir="imgmod"
+if [[ ! -d "$dir" ]]; then
+	# -- 后续的参数解析为普通参数 比如dir="-test"
+    mkdir -p -- "$dir"
+fi
+
+file="$1"
+add="$2"
+
+name="$(basename "$file")"
+name="${name%.*}"
+suffix="${file##*.}"
+
+printf '%s/%s.%s.%s' "$dir" "$name" "$add" "$suffix"
