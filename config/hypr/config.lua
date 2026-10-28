@@ -16,7 +16,7 @@ hl.config({
     },
     input = {
         natural_scroll = true,
-		-- left_handed = true,
+        -- left_handed = true,
         follow_mouse = 1,
         mouse_refocus = false,
         float_switch_override_focus = 2,

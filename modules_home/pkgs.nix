@@ -18,6 +18,7 @@
         nginx
         unzip
         zip
+        _7zz
         smem
         wev
         wget

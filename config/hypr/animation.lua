@@ -1,0 +1,1 @@
+hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 10, bezier = "default", style = "fade" })

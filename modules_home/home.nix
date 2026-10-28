@@ -4,12 +4,14 @@ let params = import ../params.nix; in
 
     home.sessionPath = [
         "$HOME/bin"
+        "$HOME/.cargo/bin"
     ];
 
     home.file = {
         ".local/share" = { source = ../local_share; recursive = true; };
         ".config"      = { source = ../config;      recursive = true; };
         "bin"          = { source = ../bin;         recursive = true; };
+        ".cargo"       = { source = ../config_home/cargo;   recursive = true; };
         # ".vimrc".source = ./home/.vimrc;
     };
 
