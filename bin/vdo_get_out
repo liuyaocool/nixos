@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+file="$1"
+add="$2"
+
+name="$(basename "$file")"
+name="${name%.*}"
+suffix="${file##*.}"
+
+printf '%s.%s.%s' "$name" "$add" "$suffix"

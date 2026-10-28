@@ -1,24 +1,28 @@
 #!/usr/bin/env bash
 if [ $# -lt 3 ]; then
-    echo "Usage: $0 <start> <end:传0截取到结尾> <path1> <path2> ..."
+    echo "Usage: $0 <start> <end> <path1> <path2> ..."
+    echo "    start   : 秒数 或 时间格式(hh:mm:ss)"
+    echo "    end = 0 : 截取到结尾"
+    echo "    end < 0 : 从结尾数向前的秒数，不支持时间格式"
+    echo "    end > 0 : 同 start"
     exit 1
 fi
 
+add="sp_${1//:/.}_${2//:/.}"
 start=${1}
 end=${2}
 shift 2
-mkdir -p sp
 
 for file in "$@"; do
-	n="${1//:/.}"
-	fn="${file%%.*}"
-	suffix="${file##*.}"
-	# end_151=$(ffprobe -i ${1}.mkv -show_entries format=duration -v quiet -of csv="p=0" | awk '{print int ($1 - 151)}')
-	# ffmpeg -ss ${2} -to ${3} -i ${1} -c copy sp${fn}-${n}-${1}
-	echo sp/${fn}-sp-${n}.${suffix}
-	if [ "$end" = "0" ]; then
-		ffmpeg -ss ${start} -i ${file} -c copy sp/${fn}-sp-${n}.${suffix}
+	if (( $end < 0 )); then
+		dur=$(ffprobe -i "$file" -show_entries format=duration -v quiet -of csv="p=0")
+		end=( -to $(( ${dur%%.*} + end )) )
+	elif (( $end == 0 )); then
+	    end=()
 	else
-		ffmpeg -ss ${start} -to ${end} -i ${file} -c copy sp/${fn}-sp-${n}.${suffix}
+		end=( -to $end )
 	fi
+	echo "$(vdo_get_out "$file" "$add")"
+	echo end = $end
+	ffmpeg -ss ${start} "${end[@]}" -i ${file} -c copy "$(vdo_get_out "$file" "$add")"
 done
