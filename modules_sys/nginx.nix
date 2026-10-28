@@ -1,41 +1,53 @@
-{ pkgs, ... }:
-let params = import ../params.nix; in
+{ pkgs, lib, ... }:
+let 
+    params = import ../params.nix;
+    # 1. 把整个 nginx 目录（含 conf.d）构建到 Nix Store
+    nginxConfigDir = pkgs.runCommand "my-nginx" {} ''
+        mkdir -p $out/conf
+        cp -r ${../config_home}/nginx/conf/conf.d  $out/conf
+        cp ${../config_home}/nginx/conf/nginx.conf $out/conf
+        cp ${pkgs.mailcap}/etc/nginx/mime.types    $out/conf/mime.types
+        cp ${../soft}/fs $out
+    '';
+in
 {
-    networking.firewall.allowedTCPPorts = [ 8080 ];
+    networking.firewall.allowedTCPPorts = [ 80 ];
 
     services.nginx = {
         enable = true;
         additionalModules = [
-            # 加这一个会自动启动 自带dav 和 webdav-ext
+            # 自动启动: 自带dav 和 webdav-ext
             pkgs.nginxModules.dav
         ];
-
-        virtualHosts."webdav.local" = {
-            listen = [ { addr = "0.0.0.0"; port = 8080; } ];
-            locations."/" = {
-                # 改回标准路径
-                root = "/var/lib/webdav";
-                extraConfig = ''
-                dav_methods PUT DELETE MKCOL COPY MOVE;
-                dav_ext_methods PROPFIND OPTIONS;
-                dav_access user:rw group:rw all:r;
-                client_max_body_size 10G;
-
-                # 防止目录为空时浏览器访问报 403
-                autoindex on;
-                '';
-            };
-        };
+        # services.nginx.appendHttpConfig = builtins.readFile ./nginx/xxx.conf;
     };
+
+    # -p 指定配置文件路径
+    systemd.services.nginx.serviceConfig.ExecStart = lib.mkForce ''
+        ${pkgs.nginx}/bin/nginx -g 'daemon off;' -p ${nginxConfigDir}
+    '';
+    # systemd.services.nginx.serviceConfig.ProtectHome = "read-only";
 
     systemd.tmpfiles.rules = [
         # sudo chown -R nginx:nginx /var/lib/webdav
         # sudo chown 775 /var/lib/webdav
         # 确保目录存在， 且 nginx 用户和组有权访问
-        "d /var/lib/webdav 0775 nginx nginx -"
+        "d /var/lib/nginx 0775 nginx nginx -"
+        "Z /var/lib/nginx - nginx nginx -"
     ];
 
     # 将你的主用户 加入 nginx 用户组， 方便你直接在本地读写这个文件夹
     users.users.${params.username}.extraGroups = [ "nginx" ];
+
+    systemd.services.file-system = {
+        description = "fs";
+        wantedBy = [ "multi-user.target" ];
+        serviceConfig = {
+            ExecStart = "${nginxConfigDir}/fs 3000 /var/lib/nginx/data ";
+            User = "nginx";
+            Group = "nginx";
+            Restart = "on-failure";
+        };
+    };
 }
 

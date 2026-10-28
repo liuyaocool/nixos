@@ -17,6 +17,7 @@
         rebuild = "sudo nixos-rebuild switch --flake path:$HOME/nixos";
         rebuildt = "nixos-rebuild switch --flake path:$HOME/nixos";
         ra = "ranger";
+        vi = "micro";
         mem-usage = "smem -tk";
         pkg-search = "nix search nixpkgs ";
         gd = "git diff";

@@ -1,0 +1,102 @@
+server {
+    listen 80 default_server;
+    server_name _;
+    # limit_rate 50000k;
+    charset utf-8,gbk;
+    client_max_body_size 100M;
+
+    client_header_buffer_size 16k;
+    large_client_header_buffers 4 32k;
+
+    location /ollama/ {
+        proxy_pass http://127.0.0.1:11434/api/;
+
+        # 添加 CORS 头（必须）
+        add_header 'Access-Control-Allow-Origin' '*' always;
+        add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
+        add_header 'Access-Control-Allow-Headers' 'Content-Type, Authorization' always;
+        add_header 'Access-Control-Max-Age' 86400 always;
+
+        proxy_set_header Origin 'http://127.0.0.1';
+
+        # 处理 OPTIONS 请求
+        if ($request_method = 'OPTIONS') {
+            add_header 'Access-Control-Allow-Origin' '*';
+            add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+            add_header 'Access-Control-Allow-Headers' 'Content-Type';
+            add_header 'Access-Control-Max-Age' 86400;
+            add_header 'Content-Length' 0;
+            add_header 'Content-Type' 'text/plain; charset=utf-8';
+            return 204;
+        }
+    }
+
+    location ~ ^/(resource|hello|note|good)(/.*)?$ {
+        # $1 指 note/good哪些， $2 指 这些path下的其他文件等 可以是一层或多层
+        alias /home/liuyao/project/my/github_pages/$1$2;
+        index index.html;
+        
+        # 确保访问目录时自动添加斜杠
+        # if (-d $request_filename) {
+        #     rewrite ^(.*[^/])$ $1/ permanent;
+        # }
+    }
+    # set $gh_page_path "/home/liuyao/project/my/github_pages";
+    # location /resource {
+    #     alias  $gh_page_path/resource;
+    #     index  index.html;
+    # }    
+}
+
+server {
+    listen 80;
+    server_name ws.com ws.cn;
+    charset utf-8;
+
+    include conf.d/getip;
+
+    location / {
+        alias  /home/liuyao/project/my/ws/page/;
+        index  index.html;
+    }
+
+    location /ws {
+        alias  /home/liuyao/project/my/ws/page/;
+        index  index.html;
+    }
+
+    location /ws-api {
+        # 超时设置 - 设置为0失败
+        #  proxy_read_timeout 0;
+        #  proxy_connect_timeout 86400s;
+        #  proxy_send_timeout 0;
+
+        #  # 其他优化设置
+        #  proxy_buffering off;  # 禁用缓冲，对长连接很重要
+        #  proxy_cache off;      # 禁用缓存
+
+        proxy_pass http://127.0.0.1:8081;          # 后端地址
+        proxy_http_version 1.1;             # 必须是 HTTP/1.1
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+
+}
+
+server {
+    listen 80;
+    server_name ~^(?<subdir>[^.]+)\.w\.(com|cn)$;
+    # server_name ~^(?<subdir>[^.]+)\.w.com$ ~^(?<subdir>[^.]+)\.w.cn$;
+    limit_rate 10000k;
+    charset utf-8,gbk;
+
+    client_header_buffer_size 16k;
+    large_client_header_buffers 4 32k;
+
+    root /home/liuyao/project/my/github_pages/$subdir;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}

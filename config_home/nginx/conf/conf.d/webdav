@@ -1,0 +1,15 @@
+location /webdav {
+    include conf.d/webdav_ro;
+}
+
+location /webdav1/ {
+    include conf.d/fs_index;
+    dav_methods OFF;                                # 只读
+    dav_methods PUT DELETE MKCOL COPY MOVE;
+    dav_ext_methods PROPFIND OPTIONS LOCK UNLOCK;   # 扩展方法，提供完整支持[citation:4][citation:9]
+    create_full_put_path on;                        # 允许创建多级目录[citation:1][citation:4]
+    dav_access user:rw group:rw all:r;              # 设置新建文件的权限
+    autoindex on;                                   # 开启目录列表，方便在浏览器中查看[citation:4]
+    autoindex_exact_size off;
+    autoindex_localtime on;
+}

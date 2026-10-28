@@ -1,0 +1,2 @@
+alias /var/lib/nginx/file-system/static/;
+index main.html;
