@@ -1,4 +1,6 @@
 {
     "tabsize": 4,
-    "tabstospaces": true
+    "tabstospaces": true,
+    "fakecursor": true,
+    "paste": true,
 }

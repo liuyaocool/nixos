@@ -10,6 +10,7 @@
         ];
     };
     sshKeys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA+R+kR68ZhUXjHfD9MKlsQTQg0lc934l2XRP4GR+0Od root@hish"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHTCQa5ztJIg85TWfwux5DZ2DxCDjn1/XaOCVbMWHWtC w10885"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEXzB9QbF8tqsWCmmWuKYwLjclOpprJfi0NtcpcTWLTU u0_a249@localhost"
     ];

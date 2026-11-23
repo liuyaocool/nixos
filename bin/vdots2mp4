@@ -4,5 +4,6 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 for file in "$@"; do
-    ffmpeg -f mpegts -i "$file" -c copy "${file}.mp4"
+    # 强制指定ts流 且跳过损坏的数据块
+    ffmpeg -fflags +discardcorrupt -f mpegts -i "$file" -c copy "${file}.mp4"
 done

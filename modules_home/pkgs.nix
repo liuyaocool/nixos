@@ -32,6 +32,9 @@
         slurp
         swappy
         #sunshine
+        freecad
+        moonlight-qt
+        krita
 
         ffmpeg
         ffmpegthumbnailer
